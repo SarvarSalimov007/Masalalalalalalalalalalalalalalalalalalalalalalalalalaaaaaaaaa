@@ -44,7 +44,35 @@
 # print("Karta balansi: ",hisob.get_balans())
 # print(hisob.__balans)
 ##2-masala##parol boshqruvchisi
-
+class Foydalanuvchi:
+    def __init__(self,ism,parol):
+        self.ism = ism
+        self.__parol = parol
+    def get_ism(self):
+        return self.ism
+    def get_parol(self):
+        return self.__parol
+    def paroltekshir(self,kiritilgan_parol):
+        if kiritilgan_parol == self.__parol:
+            return True
+        else:
+            return False
+    def parolozgartir(self,eski_parol,yangi_parol):
+        if eski_parol != self.__parol:
+            return "Parol Noto'g'ri!",False
+        elif len(yangi_parol) < 6:
+            return "Parol kamida 6 ta belgidan iborat bo'lishi kerak!",False
+        else:
+            self.__parol = yangi_parol
+            return "Parol o'zgartirildi!",True
+user = Foydalanuvchi("Sardor","maxfiy123")
+print(user.get_ism())
+print(user.paroltekshir("noto'g'ri"))
+print(user.paroltekshir("maxfiy123"))
+print(user.parolozgartir("xato","yangi456"))
+print(user.parolozgartir("maxfiy123","123"))
+print(user.paroltekshir("maxfiy123"))
+print(user.paroltekshir("yangi456"))
 
 
 
