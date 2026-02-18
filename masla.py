@@ -11,32 +11,40 @@
 #####################################
 #####################################
 #####################################
-##1-masala
-# def choyxona_qaytimi(hisob,tolangan):
-#     if tolangan < hisob:
-#         return "Siz yetarli to'lovni to'lamadingiz!"
-#     else:
-#         return tolangan % hisob
-# print(choyxona_qaytimi(85_000,100_000))
-# print(choyxona_qaytimi(120_000,100_000))
-#####################################
-#####################################
-#####################################
-##2-masala
-# def yugurish_statistikasi(masofalar,maqsad_km):
-#     bajarilgan = 0 
-#     if m in masofalar:
-#         if m >= maqsad_km:
-#             bajarilgan += 1
-#     jami_kun = len(masofalar)
-#     bajarilmagan = jami_kun - bajarilgan
+##1-masala##Bank xisobi
+# class Bankhisobi:
+#     def __init__(self,egasi,boshlangich_balans):
+#         self.__egasi = egasi
+#         self.__balans = boshlangich_balans
+#     def get_egasi(self):
+#         return self.__egasi
+#     def get_balans(self):
+#         return self.__balans
+#     def pulqosh(self,miqdor):
+#         if miqdor < 0 or miqdor == 0:
+#             return "Noto'g'ri qiymat!"
+#         else:
+#             self.__balans += miqdor
+#             return self.__balans
+#     def pulyech(self,miqdor):
+#         if miqdor < 0 or miqdor == 0:
+#             return "Noto'g'ri qiymat!"
+#         elif miqdor > self.__balans:
+#             return "Mablag' yetarli emas!"
+#         else:
+#             self.__balans -= miqdor
+#             return self.__balans
+  
+# hisob = Bankhisobi("ali",500_000_000)
+# print("Karta egasi: ",hisob.get_egasi())
+# print("Karta balansi: ",hisob.get_balans())
+# hisob.pulqosh(200_000_000)
+# print("Karta balansi: ",hisob.get_balans())
+# hisob.pulyech(100_000_000)
+# print("Karta balansi: ",hisob.get_balans())
+# print(hisob.__balans)
+##2-masala##parol boshqruvchisi
 
-#     eng_uzoq = max(masofalar) if masofalar else 0
-#     ortalama = sum(masofalar) / jami_kun if jami_kun > 0 else 0
 
-#     return {
-#         "Bajarilgan_Kunlar",bajarilgan,
-#         "Bajarilmagan_Kunlar",bajarilmagan,
-#         "Eng_Uzoq",eng_uzoq,
-#         "O'rtalama",ortalama,
-#     }
+
+
