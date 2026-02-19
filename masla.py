@@ -44,35 +44,72 @@
 # print("Karta balansi: ",hisob.get_balans())
 # print(hisob.__balans)
 ##2-masala##parol boshqruvchisi
-class Foydalanuvchi:
-    def __init__(self,ism,parol):
-        self.ism = ism
-        self.__parol = parol
+# class Foydalanuvchi:
+#     def __init__(self,ism,parol):
+#         self.ism = ism
+#         self.__parol = parol
+#     def get_ism(self):
+#         return self.ism
+#     def get_parol(self):
+#         return self.__parol
+#     def paroltekshir(self,kiritilgan_parol):
+#         if kiritilgan_parol == self.__parol:
+#             return True
+#         else:
+#             return False
+#     def parolozgartir(self,eski_parol,yangi_parol):
+#         if eski_parol != self.__parol:
+#             return "Parol Noto'g'ri!",False
+#         elif len(yangi_parol) < 6:
+#             return "Parol kamida 6 ta belgidan iborat bo'lishi kerak!",False
+#         else:
+#             self.__parol = yangi_parol
+#             return "Parol o'zgartirildi!",True
+# user = Foydalanuvchi("Sardor","maxfiy123")
+# print(user.get_ism())
+# print(user.paroltekshir("noto'g'ri"))
+# print(user.paroltekshir("maxfiy123"))
+# print(user.parolozgartir("xato","yangi456"))
+# print(user.parolozgartir("maxfiy123","123"))
+# print(user.paroltekshir("maxfiy123"))
+# print(user.paroltekshir("yangi456"))
+##3-masala##Talaba baholari jurnali
+class Talaba:
+    def __init__(self,ism,fan):
+        self.__ism = ism
+        self.__fan = fan
+        self.__baholar = []
     def get_ism(self):
-        return self.ism
-    def get_parol(self):
-        return self.__parol
-    def paroltekshir(self,kiritilgan_parol):
-        if kiritilgan_parol == self.__parol:
-            return True
+        return self.__ism
+    def get_fan(self):
+        return self.__fan
+    def get_baholar(self):
+        return self.__baholar
+    def baho_qosh(self,baho):
+        if baho < 0 or baho > 100:
+            return "Baho 0 dan 100 balgacha bo'lishi kerak!"
         else:
-            return False
-    def parolozgartir(self,eski_parol,yangi_parol):
-        if eski_parol != self.__parol:
-            return "Parol Noto'g'ri!",False
-        elif len(yangi_parol) < 6:
-            return "Parol kamida 6 ta belgidan iborat bo'lishi kerak!",False
+            self.__baholar.append(baho)
+        return "Baho qoshildi"
+    def get_baho(self):
+        return self.__baholar.copy()
+    def ortacha_baho(self):
+        baholar = self.get_baho()
+        if len(baholar) == 0:
+            return "Baholar yo'q!",None
         else:
-            self.__parol = yangi_parol
-            return "Parol o'zgartirildi!",True
-user = Foydalanuvchi("Sardor","maxfiy123")
-print(user.get_ism())
-print(user.paroltekshir("noto'g'ri"))
-print(user.paroltekshir("maxfiy123"))
-print(user.parolozgartir("xato","yangi456"))
-print(user.parolozgartir("maxfiy123","123"))
-print(user.paroltekshir("maxfiy123"))
-print(user.paroltekshir("yangi456"))
-
+            return sum(baholar) / len(baholar)
+talaba = Talaba('Nodira',"Matematika")
+print(talaba.get_ism())
+print(talaba.get_fan())
+talaba.baho_qosh(85)
+talaba.baho_qosh(92)
+talaba.baho_qosh(78)
+talaba.baho_qosh(150)
+print(talaba.get_baholar())
+print(talaba.ortacha_baho())
+baholar = talaba.get_baholar()
+baholar.append(999)
+print(talaba.get_baholar())
 
 
