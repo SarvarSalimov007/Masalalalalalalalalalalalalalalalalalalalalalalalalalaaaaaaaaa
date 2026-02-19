@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE SYSTEM - Solo Leveling 3D Hyper-Realism</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap"
+        rel="stylesheet">
+    <!-- Three.js CDN and Post-processing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+</head>
+
+<body>
+    <canvas id="bg-canvas"></canvas>
+    <div class="background-overlay"></div>
+
+    <div id="system-container" class="glass-panel">
+        <header>
+            <div class="system-title">
+                <span class="glitch" data-text="[ STATUS ]">[ STATUS ]</span>
+            </div>
+            <div class="user-id">S-RANK HUNTER: <span id="player-name">USER</span></div>
+        </header>
+
+        <div class="main-content">
+            <!-- Left Wing: Stats & Info -->
+            <div class="stats-section">
+                <div class="level-box">
+                    <span class="label">LEVEL</span>
+                    <span id="lvl-val" class="value">01</span>
+                </div>
+                <div class="job-box">
+                    <span class="label">JOB</span>
+                    <span id="job-val" class="value">NONE</span>
+                </div>
+                <div class="title-box">
+                    <span class="label">TITLE</span>
+                    <span id="title-val" class="value">REAWAKENED</span>
+                </div>
+
+                <div class="divider"></div>
+
+                <ul class="stats-list">
+                    <li><span>HP</span>
+                        <div class="bar-container">
+                            <div id="hp-bar" class="bar hp" style="width: 100%;"></div><span
+                                class="bar-text">100/100</span>
+                        </div>
+                    </li>
+                    <li><span>MP</span>
+                        <div class="bar-container">
+                            <div id="mp-bar" class="bar mp" style="width: 100%;"></div><span
+                                class="bar-text">50/50</span>
+                        </div>
+                    </li>
+                    <li><span>FATIGUE</span>
+                        <div class="bar-container">
+                            <div id="fatigue-bar" class="bar fatigue" style="width: 0%;"></div><span
+                                class="bar-text">0/100</span>
+                        </div>
+                    </li>
+                    <li><span>XP</span>
+                        <div class="bar-container">
+                            <div id="xp-bar" class="bar xp" style="width: 0%;"></div><span class="bar-text">0/100</span>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="divider"></div>
+
+                <div class="attributes">
+                    <div class="attr-item">STRENGTH: <span id="str-val">10</span> <button onclick="game.allocate('str')"
+                            class="add-btn">+</button></div>
+                    <div class="attr-item">AGILITY: <span id="agi-val">10</span> <button onclick="game.allocate('agi')"
+                            class="add-btn">+</button></div>
+                    <div class="attr-item">SENSE: <span id="sen-val">10</span> <button onclick="game.allocate('sen')"
+                            class="add-btn">+</button></div>
+                    <div class="attr-item">VITALITY: <span id="vit-val">10</span> <button onclick="game.allocate('vit')"
+                            class="add-btn">+</button></div>
+                    <div class="attr-item">INTELLIGENCE: <span id="int-val">10</span> <button
+                            onclick="game.allocate('int')" class="add-btn">+</button></div>
+                </div>
+                <div class="points-available">REMAINING POINTS: <span id="points-val">0</span></div>
+
+                <button id="gate-btn" class="action-btn" onclick="game.enterGate()">ENTER THE GATE</button>
+            </div>
+
+            <!-- Right Wing: Quests/Inventory Container -->
+            <div class="quest-section">
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="game.switchTab('quest', event)">QUEST</button>
+                    <button class="tab-btn" onclick="game.switchTab('inventory', event)">INVENTORY</button>
+                    <button class="tab-btn" onclick="game.switchTab('skills', event)">SKILLS</button>
+                </div>
+                <div id="tab-content" class="tab-content-box">
+                    <!-- Content dynamic -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Combat Arena (Hidden by default) -->
+        <div id="arena-overlay" class="arena-overlay hidden">
+            <div class="arena-content">
+                <h2 id="mob-name">MONSTER APPEARED!</h2>
+                <div class="arena-battlefield hidden">
+                    <!-- 3D Scene is the battlefield now -->
+                </div>
+                <div class="mob-hp-container">
+                    <span>MOB HP</span>
+                    <div class="bar-container">
+                        <div id="mob-hp-bar" class="bar hp" style="width: 100%;"></div><span class="bar-text"
+                            id="mob-hp-text">100/100</span>
+                    </div>
+                </div>
+                <div class="combat-log" id="combat-log">Preparing for battle...</div>
+                <div class="combat-actions">
+                    <button class="combat-btn" onclick="game.attack()">ATTACK</button>
+                    <button class="combat-btn skill-btn" onclick="game.useSkill('bloodlust')">BLOODLUST</button>
+                    <button class="combat-btn" onclick="game.runAway()">ESCAPE</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Boss Overlay: Statue of God -->
+        <div id="boss-overlay" class="boss-overlay hidden">
+            <div class="statue-container">
+                <div class="statue-eyes"></div>
+                <h1 class="boss-warning">THE STATUE OF GOD HAS AWAKENED</h1>
+                <p class="boss-subtitle">"Bow down before the God, or face eternal punishment."</p>
+                <div class="boss-commands">
+                    <button class="boss-btn" onclick="game.command('bow')">BOW DOWN</button>
+                    <button class="boss-btn" onclick="game.command('praise')">PRAISE THE GOD</button>
+                    <button class="boss-btn" onclick="game.command('run')">RUN FOR YOUR LIFE</button>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div id="status-msg">SYSTEM IS MONITORING YOUR PROGRESS...</div>
+        </footer>
+    </div>
+
+    <div id="level-up-overlay" class="hidden">
+        <div class="level-up-text">LEVEL UP!</div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+
+</html>

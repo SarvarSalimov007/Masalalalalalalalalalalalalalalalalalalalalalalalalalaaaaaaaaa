@@ -1,0 +1,583 @@
+:root {
+    --system-blue: #00d2ff;
+    --system-glow: rgba(0, 210, 255, 0.6);
+    --bg-dark: #020b14;
+    --panel-bg: rgba(5, 20, 35, 0.85);
+    --border-blue: #32c5ff;
+    --text-main: #e0faff;
+    --danger: #ff3c3c;
+    --xp-color: #ffd700;
+    --glow-strength: 0 0 15px var(--system-glow);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    perspective: 1000px;
+}
+
+body::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 1000;
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+#bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -2;
+}
+
+.background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(0, 25, 50, 0.1) 0%, rgba(2, 11, 20, 0.8) 90%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.glass-panel {
+    width: 900px;
+    height: 600px;
+    background: rgba(5, 20, 35, 0.75);
+    border: 2px solid var(--border-blue);
+    box-shadow: 0 0 20px var(--system-glow), inset 0 0 15px rgba(0, 210, 255, 0.1);
+    border-radius: 4px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(10px);
+    transform: rotateX(5deg);
+    animation: floating 4s ease-in-out infinite;
+}
+
+@keyframes floating {
+
+    0%,
+    100% {
+        transform: rotateX(5deg) translateY(0);
+    }
+
+    50% {
+        transform: rotateX(5deg) translateY(-10px);
+    }
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-blue);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.system-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    color: var(--system-blue);
+    text-shadow: 0 0 10px var(--system-blue);
+}
+
+.user-id {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
+
+.main-content {
+    display: flex;
+    flex: 1;
+    gap: 30px;
+}
+
+.stats-section {
+    flex: 1.2;
+}
+
+.quest-section {
+    flex: 1.5;
+    border-left: 1px solid rgba(50, 197, 255, 0.3);
+    padding-left: 30px;
+}
+
+.level-box,
+.job-box,
+.title-box {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.4rem;
+}
+
+.label {
+    color: var(--border-blue);
+}
+
+.value {
+    font-weight: bold;
+    text-shadow: 0 0 5px var(--system-blue);
+}
+
+.divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-blue), transparent);
+    margin: 15px 0;
+}
+
+.stats-list {
+    list-style: none;
+}
+
+.stats-list li {
+    margin-bottom: 12px;
+}
+
+.bar-container {
+    width: 100%;
+    height: 12px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border-blue);
+    position: relative;
+    margin-top: 4px;
+}
+
+.bar {
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+.hp {
+    background: var(--danger);
+    box-shadow: 0 0 10px var(--danger);
+}
+
+.mp {
+    background: var(--system-blue);
+    box-shadow: 0 0 10px var(--system-blue);
+}
+
+.fatigue {
+    background: #ffaa00;
+    box-shadow: 0 0 10px #ffaa00;
+}
+
+.bar-text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    font-size: 0.7rem;
+    top: -2px;
+    font-weight: bold;
+}
+
+.attributes {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.attr-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1rem;
+    padding: 5px 10px;
+    background: rgba(0, 210, 255, 0.05);
+    border-radius: 4px;
+}
+
+.add-btn {
+    background: transparent;
+    border: 1px solid var(--system-blue);
+    color: var(--system-blue);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    line-height: 18px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.add-btn:hover {
+    background: var(--system-blue);
+    color: var(--bg-dark);
+}
+
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    background: transparent;
+    border: 1px solid var(--border-blue);
+    color: var(--border-blue);
+    padding: 5px 15px;
+    cursor: pointer;
+}
+
+.tab-btn.active {
+    background: var(--system-blue);
+    color: var(--bg-dark);
+}
+
+.tab-content-box h3 {
+    color: var(--system-blue);
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.quest-item {
+    padding: 10px;
+    background: rgba(0, 210, 255, 0.1);
+    border: 1px solid rgba(0, 210, 255, 0.2);
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.quest-item:hover {
+    background: rgba(0, 210, 255, 0.2);
+    border-color: var(--system-blue);
+}
+
+.warning-text {
+    margin-top: 20px;
+    color: var(--danger);
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-align: center;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+footer {
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid rgba(50, 197, 255, 0.3);
+    font-size: 0.9rem;
+    color: var(--border-blue);
+    text-align: center;
+}
+
+#level-up-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.level-up-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 5rem;
+    color: var(--system-blue);
+    text-shadow: 0 0 30px var(--system-blue);
+    animation: zoomIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes zoomIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Expansion Styles */
+.action-btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 15px;
+    background: linear-gradient(90deg, transparent, rgba(0, 210, 255, 0.2), transparent);
+    border: 1px solid var(--system-blue);
+    color: var(--system-blue);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    cursor: pointer;
+    text-shadow: 0 0 10px var(--system-blue);
+    transition: 0.3s;
+}
+
+.action-btn:hover {
+    background: var(--system-blue);
+    color: var(--bg-dark);
+    box-shadow: 0 0 30px var(--system-blue);
+}
+
+/* Arena Overlay */
+.arena-overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 500px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    z-index: 50;
+    pointer-events: none;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.arena-content {
+    pointer-events: auto;
+}
+
+.arena-battlefield {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex: 1;
+    margin: 20px 0;
+}
+
+.player-unit,
+.mob-unit {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;
+    flex-direction: column;
+}
+
+.unit-glow {
+    box-shadow: 0 0 40px var(--system-blue);
+    border-radius: 50%;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.5;
+}
+
+.unit-glow-red {
+    box-shadow: 0 0 40px var(--danger);
+    border-radius: 50%;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.5;
+}
+
+.battle-vs {
+    font-size: 3rem;
+    font-family: 'Orbitron', sans-serif;
+    color: white;
+    text-shadow: 0 0 15px white;
+}
+
+.combat-log {
+    height: 80px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    font-size: 0.9rem;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.combat-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.combat-btn {
+    flex: 1;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.combat-btn:hover {
+    background: white;
+    color: black;
+}
+
+.skill-btn {
+    border-color: var(--system-blue);
+    color: var(--system-blue);
+}
+
+.skill-btn:hover {
+    background: var(--system-blue);
+    color: black;
+}
+
+/* Boss Overlay: Statue of God */
+.boss-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    z-index: 200;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.statue-eyes {
+    width: 200px;
+    height: 60px;
+    background: radial-gradient(circle, #ff0000 20%, transparent 70%);
+    box-shadow: 0 0 50px #ff0000;
+    margin-bottom: 40px;
+    animation: eye-glow 2s infinite ease-in-out;
+}
+
+@keyframes eye-glow {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+}
+
+.boss-warning {
+    font-family: 'Orbitron', sans-serif;
+    color: #ff3c3c;
+    font-size: 3rem;
+    text-shadow: 0 0 20px #ff0000;
+    text-align: center;
+}
+
+.boss-subtitle {
+    font-style: italic;
+    margin: 20px 0;
+    color: #aaa;
+}
+
+.boss-commands {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 300px;
+}
+
+.boss-btn {
+    padding: 15px;
+    background: #111;
+    border: 1px solid #444;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.boss-btn:hover {
+    border-color: #ff0000;
+    background: #440000;
+}
+
+/* Animations */
+.shake {
+    animation: shake-anim 0.3s ease-in-out;
+}
+
+@keyframes shake-anim {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(5px, 5px);
+    }
+
+    50% {
+        transform: translate(-5px, -5px);
+    }
+
+    75% {
+        transform: translate(5px, -5px);
+    }
+}
+
+.flash {
+    animation: flash-anim 0.2s ease-in-out;
+}
+
+@keyframes flash-anim {
+
+    0%,
+    100% {
+        color: white;
+    }
+
+    50% {
+        color: #ff0000;
+        background: white;
+    }
+}
