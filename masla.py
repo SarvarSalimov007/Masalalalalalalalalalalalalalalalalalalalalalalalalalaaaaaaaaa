@@ -74,42 +74,41 @@
 # print(user.paroltekshir("maxfiy123"))
 # print(user.paroltekshir("yangi456"))
 ##3-masala##Talaba baholari jurnali
-class Talaba:
-    def __init__(self,ism,fan):
-        self.__ism = ism
-        self.__fan = fan
-        self.__baholar = []
-    def get_ism(self):
-        return self.__ism
-    def get_fan(self):
-        return self.__fan
-    def get_baholar(self):
-        return self.__baholar
-    def baho_qosh(self,baho):
-        if baho < 0 or baho > 100:
-            return "Baho 0 dan 100 balgacha bo'lishi kerak!"
-        else:
-            self.__baholar.append(baho)
-        return "Baho qoshildi"
-    def get_baho(self):
-        return self.__baholar.copy()
-    def ortacha_baho(self):
-        baholar = self.get_baho()
-        if len(baholar) == 0:
-            return "Baholar yo'q!",None
-        else:
-            return sum(baholar) / len(baholar)
-talaba = Talaba('Nodira',"Matematika")
-print(talaba.get_ism())
-print(talaba.get_fan())
-talaba.baho_qosh(85)
-talaba.baho_qosh(92)
-talaba.baho_qosh(78)
-talaba.baho_qosh(150)
-print(talaba.get_baholar())
-print(talaba.ortacha_baho())
-baholar = talaba.get_baholar()
-baholar.append(999)
-print(talaba.get_baholar())
-
+# class Talaba:
+#     def __init__(self,ism,fan):
+#         self.__ism = ism
+#         self.__fan = fan
+#         self.__baholar = []
+#     def get_ism(self):
+#         return self.__ism
+#     def get_fan(self):
+#         return self.__fan
+#     def get_baholar(self):
+#         return self.__baholar
+#     def baho_qosh(self,baho):
+#         if baho < 0 or baho > 100:
+#             return "Baho 0 dan 100 balgacha bo'lishi kerak!"
+#         else:
+#             self.__baholar.append(baho)
+#         return "Baho qoshildi"
+#     def get_baho(self):
+#         return self.__baholar.copy()
+#     def ortacha_baho(self):
+#         baholar = self.get_baho()
+#         if len(baholar) == 0:
+#             return "Baholar yo'q!",None
+#         else:
+#             return sum(baholar) / len(baholar)
+# talaba = Talaba('Nodira',"Matematika")
+# print(talaba.get_ism())
+# print(talaba.get_fan())
+# talaba.baho_qosh(85)
+# talaba.baho_qosh(92)
+# talaba.baho_qosh(78)
+# talaba.baho_qosh(150)
+# print(talaba.get_baholar())
+# print(talaba.ortacha_baho())
+# baholar = talaba.get_baholar()
+# baholar.append(999)
+# print(talaba.get_baholar())
 

@@ -64,29 +64,33 @@ body::after {
 }
 
 .glass-panel {
-    width: 900px;
-    height: 600px;
-    background: rgba(5, 20, 35, 0.75);
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 320px;
+    height: auto;
+    background: rgba(5, 20, 35, 0.6);
     border: 2px solid var(--border-blue);
-    box-shadow: 0 0 20px var(--system-glow), inset 0 0 15px rgba(0, 210, 255, 0.1);
+    box-shadow: 0 0 15px var(--system-glow);
     border-radius: 4px;
-    padding: 20px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
-    backdrop-filter: blur(10px);
-    transform: rotateX(5deg);
-    animation: floating 4s ease-in-out infinite;
+    backdrop-filter: blur(8px);
+    z-index: 100;
+    transform: none;
+    animation: none;
 }
 
 @keyframes floating {
 
     0%,
     100% {
-        transform: rotateX(5deg) translateY(0);
+        transform: translateY(0);
     }
 
     50% {
-        transform: rotateX(5deg) translateY(-10px);
+        transform: translateY(-5px);
     }
 }
 
@@ -94,46 +98,55 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid var(--border-blue);
-    padding-bottom: 10px;
-    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(0, 210, 255, 0.3);
+    padding-bottom: 5px;
+    margin-bottom: 15px;
 }
 
 .system-title {
     font-family: 'Orbitron', sans-serif;
-    font-size: 1.8rem;
+    font-size: 1.1rem;
     color: var(--system-blue);
-    text-shadow: 0 0 10px var(--system-blue);
+    text-shadow: 0 0 8px var(--system-blue);
 }
 
 .user-id {
-    font-size: 1.2rem;
-    letter-spacing: 2px;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
 }
 
 .main-content {
     display: flex;
-    flex: 1;
-    gap: 30px;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .stats-section {
-    flex: 1.2;
+    width: 100%;
 }
 
 .quest-section {
-    flex: 1.5;
-    border-left: 1px solid rgba(50, 197, 255, 0.3);
-    padding-left: 30px;
+    display: none;
+    /* Hide quests in HUD by default to save space */
+}
+
+/* Class for full view when needed */
+.quest-section.active {
+    display: block;
+    margin-top: 10px;
+    border-top: 1px solid rgba(50, 197, 255, 0.3);
+    padding-top: 10px;
+    border-left: none;
+    padding-left: 0;
 }
 
 .level-box,
 .job-box,
 .title-box {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     display: flex;
     justify-content: space-between;
-    font-size: 1.4rem;
+    font-size: 0.9rem;
 }
 
 .label {
@@ -361,19 +374,16 @@ footer {
 /* Arena Overlay */
 .arena-overlay {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 800px;
-    height: 500px;
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    z-index: 50;
-    pointer-events: none;
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
+    top: 20px;
+    right: 20px;
+    width: 350px;
+    height: auto;
+    background: rgba(2, 11, 20, 0.7);
+    backdrop-filter: blur(8px);
+    border-right: 4px solid var(--danger);
+    z-index: 100;
+    padding: 20px;
+    pointer-events: auto;
 }
 
 .arena-content {
@@ -579,5 +589,24 @@ footer {
     50% {
         color: #ff0000;
         background: white;
+    }
+}
+
+.damage-flash {
+    animation: danger-pulse 0.2s 2;
+    box-shadow: 0 0 100px inset rgba(255, 0, 0, 0.5) !important;
+}
+
+@keyframes danger-pulse {
+    0% {
+        background: transparent;
+    }
+
+    50% {
+        background: rgba(255, 0, 0, 0.2);
+    }
+
+    100% {
+        background: transparent;
     }
 }
