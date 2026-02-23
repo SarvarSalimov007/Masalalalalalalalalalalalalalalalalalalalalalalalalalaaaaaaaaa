@@ -111,4 +111,50 @@
 # baholar = talaba.get_baholar()
 # baholar.append(999)
 # print(talaba.get_baholar())
-
+##4-masala##Harorat sensori
+class Harorat_Sensori:
+    def __init__(self,sensor_id,joylashuv):
+        self.__sensor_id = sensor_id
+        self.__joylashuv = joylashuv
+        self.__olchovlar = {}
+        self.__min_harorat = -50
+        self.__max_harorat = 150                                
+    def get_sensor_id(self):
+        return self.__sensor_id
+    def get_joylashuv(self):
+        return self.__joylashuv
+    def get_olchovlar(self):
+        return self.__olchovlar
+    def get_min_harorat(self):
+        return self.__min_harorat
+    def get_max_harorat(self):
+        return self.__max_harorat
+    def olchov_qosh(self,harorat,vaqt):
+        if harorat < self.__min_harorat or harorat > self.__max_harorat:
+            return "Xato!: Harorat -50 dan 150 gacha bo'lishi kerak!"
+        else:
+            self.__olchovlar[vaqt] = harorat
+            return "Olchov qoshildi"
+    def oxirgi_olchov(self):
+        if len(self.__olchovlar) == 0:
+            return "Olchovlar yo'q!"
+        else:
+            oxirgi_vaqt = list(self.__olchovlar.keys())[-1]
+            return f"{oxirgi_vaqt}: {self.__olchovlar[oxirgi_vaqt]}"
+    def ortacha_harorat(self):
+        if not self.__olchovlar:
+            return 0
+        return sum(self.__olchovlar.values()) / len(self.__olchovlar)
+    def olchovlar_soni(self):
+        return len(self.__olchovlar)
+    def hisobot(self):
+        return f"Sensor ID: {self.__sensor_id}\nJoylashuv: {self.__joylashuv}\nOlchovlar: {self.__olchovlar}\nOrtacha harorat: {self.ortacha_harorat()}"
+sensor = Harorat_Sensori("S-001", "1-sex")
+sensor.olchov_qosh(22.5,"08:00")
+sensor.olchov_qosh(23.0,"12:00")
+sensor.olchov_qosh(24.5,"18:00")
+sensor.olchov_qosh(25.0,"20:00")
+print(f"Oxirgi o'lchov: {sensor.oxirgi_olchov()}")
+print(f"O'rtacha harorat: {sensor.ortacha_harorat()}")
+print(f"O'lchovlar soni: {sensor.olchovlar_soni()}")
+print(sensor.hisobot())
