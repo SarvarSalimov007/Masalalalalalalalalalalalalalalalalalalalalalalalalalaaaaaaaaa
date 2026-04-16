@@ -158,3 +158,43 @@
 # print(f"O'rtacha harorat: {sensor.ortacha_harorat()}")
 # print(f"O'lchovlar soni: {sensor.olchovlar_soni()}")
 # print(sensor.hisobot())
+##MASALAAAAAAAAA
+import sqlite3 as sql
+with sql.connect("baza.db") as con:
+    cur = con.cursor()
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS students(
+        id INTEGER PRIMARY KEY,
+        studen_id INTEGER,
+        product_name TEXT,
+        price INTEGER
+    )
+    """)
+    cur.execute("""
+    id INTEGER PRIMARY KEY,
+    studen_id INTEGER,
+    product_name TEXT,
+    price INTEGER
+    """)
+
+    cur.execute(""" INSERT OR IGNORE INTO students (id,first_name,last_name,age)
+            VALUES (1,"Abdulaziz","Palvanbaev",15)""")
+    cur.execute(""" INSERT OR IGNORE INTO students (id,first_name,last_name,age)
+            VALUES (2,"Sarvar","Salimov",15)""")
+    cur.execute(""" INSERT OR IGNORE INTO students (id,first_name,last_name,age)
+            VALUES (3,"Bobur","Joliyev",15)""")    
+    cur.execute(""" INSERT OR IGNORE INTO students (id,first_name,last_name,age)
+            VALUES (4,"Mulkomon","Baydijayev",16)""")    
+    cur.execute(""" INSERT OR IGNORE INTO students (id,first_name,last_name,age)
+            VALUES (5,"Abbos","Qodirov",15)""")    
+    cur.execute(""" INSERT OR IGNORE INTO students (id,first_name,last_name,age)
+            VALUES (6,"Saidjon","Yusupov",15)""")    
+    cur.execute(""" INSERT OR IGNORE INTO students (id,first_name,last_name,age)
+            VALUES (7,"Palonchi","Pistonchiyev",15)""")
+    cur.commit()
+
+
+
+
+
+
